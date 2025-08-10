@@ -1,0 +1,12 @@
+[Unit]
+Description=First boot scripts
+
+ConditionPathExists=!/var/local/firstboot-completed
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/lib/bin/firstboot.sh
+ExecStartPost=/usr/bin/touch /var/local/firstboot-completed
+
+[Install]
+WantedBy=multi-user.target

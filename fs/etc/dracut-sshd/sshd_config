@@ -1,0 +1,11 @@
+SyslogFacility                  AUTHPRIV
+PermitRootLogin                 prohibit-password
+AuthorizedKeysFile              .ssh/authorized_keys
+AuthenticationMethods           publickey
+UsePAM                          no
+X11Forwarding                   no
+Subsystem sftp                  internal-sftp
+
+HostKey /etc/dracut-sshd/host_keys/ssh_host_ecdsa_key
+HostKey /etc/dracut-sshd/host_keys/ssh_host_ed25519_key
+HostKey /etc/dracut-sshd/host_keys/ssh_host_rsa_key

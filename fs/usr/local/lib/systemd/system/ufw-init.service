@@ -1,0 +1,14 @@
+[Unit]
+Description=Set up initial UFW user rules if missing
+ConditionPathExists=!/var/lib/ufw/user.rules
+DefaultDependencies=no
+After=local-fs.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/cp -a /usr/share/ufw/iptables/user.rules /var/lib/ufw/user.rules
+ExecStart=/usr/bin/cp -a /usr/share/ufw/iptables/user6.rules /var/lib/ufw/user6.rules
+ExecStart=/usr/bin/chmod 640 /var/lib/ufw/user.rules /var/lib/ufw/user6.rules
+
+[Install]
+WantedBy=default.target
