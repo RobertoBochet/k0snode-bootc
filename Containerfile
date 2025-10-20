@@ -78,9 +78,6 @@ systemctl enable cloud-init
 echo "■■■■■ Setup utilities ■■■■■"
 # Set fish as default shell
 usermod -s /usr/bin/fish root
-# Set global environment variables
-echo "KUBECONFIG=/var/lib/k0s/pki/admin.conf" >> /etc/environment
-echo "EDITOR=nvim" >> /etc/environment
 
 echo "■■■■■ Setup readonly paths ■■■■■"
 # Make some paths needed by k0s writable
