@@ -1,6 +1,7 @@
 FROM quay.io/fedora/fedora-bootc:42
 
 ARG K0S_VERSION=v1.33.3+k0s.0
+ARG POSTGRESQL_SERVER_VERSION=16.9
 ARG TAILSCALE_VERSION=1.84.1
 ARG WIREGUARD_TOOLS_VERSION=1.0.20210914
 
@@ -35,6 +36,7 @@ systemctl enable firstboot
 
 echo "■■■■■ Install packages ■■■■■"
 dnf install -y \
+    postgresql-server-$POSTGRESQL_SERVER_VERSION \
     tailscale-$TAILSCALE_VERSION \
     wireguard-tools-$WIREGUARD_TOOLS_VERSION \
     "https://github.com/derailed/k9s/releases/latest/download/k9s_linux_$TARGETARCH.rpm" \
