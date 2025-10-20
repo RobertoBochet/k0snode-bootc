@@ -40,6 +40,7 @@ dnf install -y \
     tailscale-$TAILSCALE_VERSION \
     wireguard-tools-$WIREGUARD_TOOLS_VERSION \
     "https://github.com/derailed/k9s/releases/latest/download/k9s_linux_$TARGETARCH.rpm" \
+    cloud-init qemu-guest-agent \
     systemd-networkd netplan \
     dracut-network dracut-sshd \
     ufw \
@@ -72,6 +73,7 @@ echo "■■■■■ Setup services ■■■■■"
 systemctl disable NetworkManager
 systemctl enable systemd-networkd
 systemctl enable ufw-init
+systemctl enable cloud-init
 
 echo "■■■■■ Setup utilities ■■■■■"
 # Set fish as default shell
