@@ -1,9 +1,7 @@
 FROM quay.io/fedora/fedora-bootc:42
 
 ARG K0S_VERSION=v1.33.4+k0s.0
-ARG POSTGRESQL_SERVER_VERSION=16.9
-ARG TAILSCALE_VERSION=1.84.1
-ARG WIREGUARD_TOOLS_VERSION=1.0.20210914
+ARG POSTGRESQL_SERVER_VERSION=18.0
 
 ARG TARGETARCH
 
@@ -35,11 +33,11 @@ mkdir /etc/firstboot.d
 systemctl enable firstboot
 
 echo "■■■■■ Install packages ■■■■■"
+dnf install -y https://download.postgresql.org/pub/repos/yum/reporpms/F-42-x86_64/pgdg-fedora-repo-latest.noarch.rpm
 dnf install -y \
-    postgresql-server-$POSTGRESQL_SERVER_VERSION \
-    tailscale-$TAILSCALE_VERSION \
-    wireguard-tools-$WIREGUARD_TOOLS_VERSION \
-    "https://github.com/derailed/k9s/releases/latest/download/k9s_linux_$TARGETARCH.rpm" \
+    postgresql18-server \
+    tailscale \
+    wireguard-tools \
     cloud-init qemu-guest-agent \
     systemd-networkd netplan \
     dracut-network dracut-sshd \
@@ -53,7 +51,8 @@ dnf install -y \
     cockpit cockpit-selinux cockpit-ostree cockpit-kdump cockpit-sosreport \
     cri-tools kubernetes1.33-client \
     toolbox \
-    cowsay figlet lolcat
+    cowsay figlet lolcat \
+    "https://github.com/derailed/k9s/releases/latest/download/k9s_linux_$TARGETARCH.rpm"
 [[ $TARGETARCH == "amd64" ]] && curl -L https://github.com/CyberShadow/btdu/releases/latest/download/btdu-static-x86_64 -o /usr/bin/btdu && chmod +x /usr/bin/btdu
 
 echo "■■■■■ Install packages from RPM fusion ■■■■■"
