@@ -27,10 +27,6 @@ elif [ "$SSH_AUTHORIZED_KEYS_CHECK_SKIP" == false ]; then
   exit 1
 fi
 
-echo "■■■■■ Setup firstboot service ■■■■■"
-mkdir /etc/firstboot.d
-systemctl enable firstboot
-
 echo "■■■■■ Install packages ■■■■■"
 dnf install -y https://download.postgresql.org/pub/repos/yum/reporpms/F-$(rpm -E %fedora)-x86_64/pgdg-fedora-repo-latest.noarch.rpm
 dnf install -y \
