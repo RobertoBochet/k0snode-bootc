@@ -84,7 +84,7 @@ echo "■■■■■ /var clean up ■■■■■"
 rm -rf \
     /var/lib/plocate/CACHEDIR.TAG \
     /var/lib/ufw/user*.rules \
-    /var/lib/pgsql
+    /var/lib/selinux
 
 echo "■■■■■ Setup initramfs ■■■■■"
 # Create dummy dracut ssh host key to prevent dracut installation failing
