@@ -1,4 +1,4 @@
-FROM quay.io/fedora/fedora-bootc:43
+FROM quay.io/fedora/fedora-bootc:42
 
 ARG K0S_VERSION=v1.33.4+k0s.0
 
