@@ -1,7 +1,6 @@
-FROM quay.io/fedora/fedora-bootc:42
+FROM quay.io/fedora/fedora-bootc:43
 
 ARG K0S_VERSION=v1.33.4+k0s.0
-ARG POSTGRESQL_SERVER_VERSION=18.0
 
 ARG TARGETARCH
 
@@ -33,7 +32,7 @@ mkdir /etc/firstboot.d
 systemctl enable firstboot
 
 echo "■■■■■ Install packages ■■■■■"
-dnf install -y https://download.postgresql.org/pub/repos/yum/reporpms/F-42-x86_64/pgdg-fedora-repo-latest.noarch.rpm
+dnf install -y https://download.postgresql.org/pub/repos/yum/reporpms/F-$(rpm -E %fedora)-x86_64/pgdg-fedora-repo-latest.noarch.rpm
 dnf install -y \
     postgresql18-server \
     tailscale \
@@ -72,7 +71,7 @@ echo "■■■■■ Setup services ■■■■■"
 systemctl disable NetworkManager
 systemctl enable systemd-networkd
 systemctl enable ufw-init
-systemctl enable cloud-init
+ln -s ../cloud-init.target /usr/lib/systemd/system/default.target.wants
 
 echo "■■■■■ Setup utilities ■■■■■"
 # Set fish as default shell
@@ -86,9 +85,10 @@ ln -s /var/local/lib/local-path-provisioner /opt/local-path-provisioner
 
 echo "■■■■■ /var clean up ■■■■■"
 # Remove unrequired file from /var
-rm -f \
+rm -rf \
     /var/lib/plocate/CACHEDIR.TAG \
-    /var/lib/ufw/user*.rules
+    /var/lib/ufw/user*.rules \
+    /var/lib/pgsql
 
 echo "■■■■■ Setup initramfs ■■■■■"
 # Create dummy dracut ssh host key to prevent dracut installation failing
