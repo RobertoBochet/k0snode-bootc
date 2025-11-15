@@ -1,0 +1,73 @@
+name: "Build container image"
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build container image
+    runs-on: ubuntu-latest
+
+    container:
+      image: quay.io/buildah/stable:v1.42
+      env:
+        BUILDAH_FORMAT: docker
+        BUILDAH_ISOLATION: chroot
+      options: --privileged
+
+    permissions:
+      packages: write
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Set variables
+        run: |
+          IMAGE_NAME=$(echo "ghcr.io/${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+          SHORT_SHA=${GITHUB_SHA:0:7}
+          K0S_VERSION=$(sed -ne 's|ARG K0S_VERSION\=v\(.*\)|\1|p' Containerfile | tr + -)
+          K8S_VERSION=$(echo $K0S_VERSION | cut -d "-" -f 1)
+          K8S_VERSION_MINOR=$(echo $K8S_VERSION | cut -d "." -f 1-2)
+          VERSION=$K0S_VERSION-$SHORT_SHA
+          
+          cat >> "$GITHUB_ENV"<< ENV
+          IMAGE_NAME=$IMAGE_NAME
+          SHORT_SHA=$SHORT_SHA
+          K0S_VERSION=$K0S_VERSION
+          K8S_VERSION=$K8S_VERSION
+          K8S_VERSION_MINOR=$K8S_VERSION_MINOR
+          VERSION=$VERSION
+          ENV
+
+      - name: Github registry login
+        run: buildah login -u "${{ github.repository_owner }}" -p "${{ secrets.GITHUB_TOKEN }}" "ghcr.io"
+
+      - name: Build image
+        run: |
+          buildah build -t $IMAGE_NAME --no-hosts --no-hostname \
+                  --label org.opencontainers.image.source="${{ github.server_url }}/${{ github.repository }}" \
+                  --label org.opencontainers.image.version="${VERSION}"
+
+      - name: Push dev image to github registry
+        run: |
+          buildah push $IMAGE_NAME "docker://$IMAGE_NAME:$VERSION"
+          buildah push $IMAGE_NAME "docker://$IMAGE_NAME:dev"
+
+      - name: Push image to github registry
+        if: github.ref == 'refs/heads/main'
+        run: |
+          buildah push $IMAGE_NAME "docker://$IMAGE_NAME:${K0S_VERSION}"
+          buildah push $IMAGE_NAME "docker://$IMAGE_NAME:${K8S_VERSION}"
+          buildah push $IMAGE_NAME "docker://$IMAGE_NAME:${K8S_VERSION_MINOR}"
+          buildah push $IMAGE_NAME "docker://$IMAGE_NAME:latest"

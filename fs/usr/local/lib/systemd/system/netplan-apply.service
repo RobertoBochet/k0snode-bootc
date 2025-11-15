@@ -1,0 +1,12 @@
+[Unit]
+Description=Apply Netplan configuration after root unlock
+After=remote-fs-pre.target systemd-remount-fs.service
+DefaultDependencies=no
+
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/netplan apply
+RemainAfterExit=yes
+
+[Install]
+WantedBy=sysinit.target

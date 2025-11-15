@@ -1,0 +1,1 @@
+LABEL=sshd_keys		/var/lib/dracut-sshd  ext4    defaults,nofail        0 0
