@@ -64,13 +64,6 @@ ln -s /var/libexec/k0s /usr/libexec/k0s
 ln -s /var/opt/cni /opt/cni
 ln -s /var/local/lib/local-path-provisioner /opt/local-path-provisioner
 
-echo "■■■■■ /var clean up ■■■■■"
-# Remove unrequired file from /var
-rm -rf \
-    /var/lib/plocate/CACHEDIR.TAG \
-    /var/lib/ufw/user*.rules \
-    /var/lib/selinux
-
 echo "■■■■■ Setup initramfs ■■■■■"
 # Create dummy dracut ssh host key to prevent dracut installation failing
 touch /etc/ssh/dracut_ssh_host_ecdsa_key{,.pub}
@@ -86,6 +79,14 @@ set +x
 rm -rf \
 	/etc/dracut-sshd/	/etc/dracut.conf.d/* \
 	/etc/systemd/system/sshd.service.d/*
+
+echo "■■■■■ /var clean up ■■■■■"
+# Remove unrequired file from /var
+rm -rf \
+    /var/lib/plocate/CACHEDIR.TAG \
+    /var/lib/ufw/user*.rules \
+    /var/lib/pgsql \
+    /var/lib/selinux
 
 echo "■■■■■ Build complete ■■■■■"
 EORUN
