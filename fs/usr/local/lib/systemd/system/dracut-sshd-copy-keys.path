@@ -1,0 +1,6 @@
+[Path]
+PathChanged=/root/.ssh/
+PathChanged=/etc/ssh/
+
+[Install]
+WantedBy=multi-user.target

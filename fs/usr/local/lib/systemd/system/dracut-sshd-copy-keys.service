@@ -1,0 +1,13 @@
+[Unit]
+Description=Copy host keys and authorized keys for dracut sshd
+RequiresMountsFor=/var/lib/dracut-sshd
+DefaultDependencies=no
+After=local-fs.target
+
+[Service]
+Type=oneshot
+ExecStart=-/usr/sbin/sh -c "cp -a /root/.ssh/authorized_keys /var/lib/dracut-sshd/authorized_keys"
+ExecStart=-/usr/sbin/sh -c "cp -a /etc/ssh/ssh_host_*_key{,.pub} /var/lib/dracut-sshd/host_keys/"
+
+[Install]
+WantedBy=default.target

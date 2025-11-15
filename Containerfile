@@ -14,19 +14,6 @@ RUN <<EORUN
 
 set -e # Exit build if any subcommand fails
 
-echo "■■■■■ Setup ssh keys ■■■■■"
-if [ -n "$SSH_AUTHORIZED_KEYS" ]; then
-  mkdir /usr/ssh
-  echo "$SSH_AUTHORIZED_KEYS" > /usr/ssh/root.keys
-  echo "$SSH_AUTHORIZED_KEYS" > /etc/dracut-sshd/authorized_keys
-  echo "authorized keys:"
-  ssh-keygen -lf /usr/ssh/root.keys || (echo "Invalid keys" && exit 1)
-elif [ "$SSH_AUTHORIZED_KEYS_CHECK_SKIP" == false ]; then
-  echo "Error: You do not provide any ssh keys with the build argument 'SSH_AUTHORIZED_KEYS'"
-  echo "If you want to skip this check provide the building argument 'SSH_AUTHORIZED_KEYS_CHECK_SKIP=true'"
-  exit 1
-fi
-
 echo "■■■■■ Install packages ■■■■■"
 dnf install -y https://download.postgresql.org/pub/repos/yum/reporpms/F-$(rpm -E %fedora)-x86_64/pgdg-fedora-repo-latest.noarch.rpm
 dnf install -y \
@@ -64,6 +51,8 @@ rm -rf /var/cache/* /var/log/* /var/lib/dnf
 
 # Enable and disable systemd units
 echo "■■■■■ Setup services ■■■■■"
+systemctl enable dracut-sshd-copy-keys.path
+systemctl disable bootc-fetch-apply-updates.timer
 systemctl disable NetworkManager
 systemctl enable systemd-networkd
 systemctl enable ufw-init
@@ -89,6 +78,7 @@ rm -rf \
 echo "■■■■■ Setup initramfs ■■■■■"
 # Create dummy dracut ssh host key to prevent dracut installation failing
 touch /etc/ssh/dracut_ssh_host_ecdsa_key{,.pub}
+touch /etc/dracut-sshd/authorized_keys
 
 # Regenerate initramfs
 set -x
