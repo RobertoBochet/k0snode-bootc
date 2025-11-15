@@ -36,7 +36,7 @@ jobs:
         run: |
           IMAGE_NAME=$(echo "ghcr.io/${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
           SHORT_SHA=${GITHUB_SHA:0:7}
-          K0S_VERSION=$(sed -ne 's|ARG K0S_VERSION\=\(.*\)|\1|p' Containerfile | tr + -)
+          K0S_VERSION=$(sed -ne 's|ARG K0S_VERSION\=v\(.*\)|\1|p' Containerfile | tr + -)
           K8S_VERSION=$(echo $K0S_VERSION | cut -d "-" -f 1)
           K8S_VERSION_MINOR=$(echo $K8S_VERSION | cut -d "." -f 1-2)
           VERSION=$K0S_VERSION-$SHORT_SHA
