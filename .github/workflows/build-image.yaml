@@ -56,7 +56,6 @@ jobs:
       - name: Build image
         run: |
           buildah build -t $IMAGE_NAME --no-hosts --no-hostname \
-                  --build-arg SSH_AUTHORIZED_KEYS="$SSH_AUTHORIZED_KEYS" \
                   --label org.opencontainers.image.source="${{ github.server_url }}/${{ github.repository }}" \
                   --label org.opencontainers.image.version="${VERSION}"
 
