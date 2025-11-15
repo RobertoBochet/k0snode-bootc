@@ -28,7 +28,7 @@ dnf install -y \
     htop plocate tree \
     btrfs-progs snapper \
     cockpit cockpit-selinux cockpit-ostree cockpit-kdump cockpit-sosreport \
-    cri-tools kubernetes1.33-client \
+    cri-tools kubernetes1.34-client \
     toolbox \
     cowsay figlet lolcat \
     "https://github.com/derailed/k9s/releases/latest/download/k9s_linux_$TARGETARCH.rpm"
