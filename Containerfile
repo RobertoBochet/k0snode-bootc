@@ -52,7 +52,6 @@ systemctl enable dracut-sshd-copy-keys.path
 systemctl disable bootc-fetch-apply-updates.timer
 systemctl disable NetworkManager
 systemctl enable systemd-networkd
-systemctl enable ufw-init
 ln -s ../cloud-init.target /usr/lib/systemd/system/default.target.wants
 
 echo "■■■■■ Setup utilities ■■■■■"
