@@ -49,7 +49,7 @@ rm -rf /var/cache/* /var/log/* /var/lib/dnf
 # Enable and disable systemd units
 echo "■■■■■ Setup services ■■■■■"
 systemctl enable dracut-sshd-copy-keys.path
-systemctl disable bootc-fetch-apply-updates.timer
+systemctl mask bootc-fetch-apply-updates.timer # unsupervised updates not recommended with encryption layer
 systemctl disable NetworkManager
 systemctl enable systemd-networkd
 ln -s ../cloud-init.target /usr/lib/systemd/system/default.target.wants
