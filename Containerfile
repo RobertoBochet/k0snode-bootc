@@ -86,7 +86,9 @@ rm -rf \
     /var/lib/plocate/CACHEDIR.TAG \
     /var/lib/ufw/user*.rules \
     /var/lib/pgsql \
-    /var/lib/selinux
+    /var/lib/selinux \
+    /var/lib/cloud \
+    /var/lib/dhcpcd
 
 echo "■■■■■ Build complete ■■■■■"
 EORUN
