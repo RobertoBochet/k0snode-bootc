@@ -1,6 +1,6 @@
-FROM quay.io/fedora/fedora-bootc:42
+FROM quay.io/fedora/fedora-bootc:43
 
-ARG K0S_VERSION=v1.35.2+k0s.0
+ARG K0S_VERSION=v1.35.3+k0s.0
 
 ARG TARGETARCH
 
@@ -28,7 +28,7 @@ dnf install -y \
     htop plocate tree \
     btrfs-progs snapper \
     cockpit cockpit-selinux cockpit-ostree cockpit-kdump cockpit-sosreport \
-    cri-tools kubernetes1.34-client \
+    cri-tools kubernetes1.35-client \
     toolbox \
     cowsay figlet lolcat \
     "https://github.com/derailed/k9s/releases/latest/download/k9s_linux_$TARGETARCH.rpm"
