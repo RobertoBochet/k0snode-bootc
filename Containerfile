@@ -18,7 +18,7 @@ dnf install -y \
     tailscale \
     wireguard-tools \
     cloud-init qemu-guest-agent \
-    systemd-networkd netplan \
+    systemd-networkd \
     dracut-network dracut-sshd \
     ufw \
     zsh fish \
