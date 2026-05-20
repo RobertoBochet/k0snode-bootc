@@ -1,6 +1,6 @@
 FROM quay.io/fedora/fedora-bootc:43
 
-ARG K0S_VERSION=v1.35.3+k0s.0
+ARG K0S_VERSION=v1.35.4+k0s.0
 
 ARG TARGETARCH
 
