@@ -12,6 +12,8 @@ on:
       - synchronize
     branches:
       - main
+  schedule:
+    - cron: "38 4 * * 0,4"
 
 jobs:
   build:
