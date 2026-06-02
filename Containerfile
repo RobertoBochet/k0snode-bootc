@@ -27,6 +27,7 @@ dnf install -y \
     rsync tcpdump wget \
     htop plocate tree \
     btrfs-progs snapper \
+    smartmontools gdisk \
     cockpit cockpit-selinux cockpit-ostree cockpit-kdump cockpit-sosreport \
     cri-tools kubernetes1.35-client \
     toolbox \
