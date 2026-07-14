@@ -1,0 +1,36 @@
+extends:
+  - "@commitlint/config-conventional"
+
+plugins:
+  - "selective-scope"
+
+rules:
+  type-enum:
+    - 2
+    - "always"
+    - ["chore", "feat", "fix", "docs", "ci", "refactor"]
+
+  scope-enum: [0]
+
+  selective-scope:
+    - 2
+    - "always"
+    - feat:
+        - "k0s"
+        - "fedora"
+        - "packages"
+        - null
+      fix:
+        - "k0s"
+        - null
+      docs:
+        - "readme"
+        - null
+      ci:
+        - null
+      chore:
+        - "pre-commit"
+        - "renovate"
+        - null
+      refactor:
+        - null
