@@ -1,0 +1,130 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+
+  "extends": [
+    ":dependencyDashboard",
+    ":configMigration",
+    "helpers:pinGitHubActionDigests"
+  ],
+
+  "prHourlyLimit": 0,
+  "prConcurrentLimit": 15,
+
+  "automerge": false,
+  "automergeType": "pr",
+  "automergeStrategy": "rebase",
+  "platformAutomerge": true,
+
+  "semanticCommits": "enabled",
+  "semanticCommitType": "chore",
+  "semanticCommitScope": "",
+
+  "minimumReleaseAge": "3 days",
+  "minimumReleaseAgeBehaviour": "timestamp-optional",
+
+  "enabledManagers": [
+    "custom.regex",
+    "dockerfile",
+    "pre-commit",
+    "github-actions"
+  ],
+
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/^Containerfile$/"],
+      "matchStrings": ["ARG K0S_VERSION=(?<currentValue>[^\\s]+)"],
+      "depNameTemplate": "k0sproject/k0s",
+      "datasourceTemplate": "github-releases",
+      "versioningTemplate": "regex:^v?(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)\\+k0s\\.(?<build>\\d+)$"
+    }
+  ],
+
+  "pre-commit": {
+    "enabled": true
+  },
+
+  "packageRules": [
+    {
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["quay.io/fedora/fedora-bootc"],
+      "matchUpdateTypes": ["major"],
+      "commitMessageAction": "update",
+      "semanticCommitType": "feat",
+      "semanticCommitScope": "fedora",
+      "automerge": false
+    },
+
+    {
+      "matchPackageNames": ["k0sproject/k0s"],
+      "matchUpdateTypes": ["major", "minor", "patch"],
+      "commitMessageAction": "bump",
+      "commitMessageTopic": "k0s",
+      "semanticCommitType": "fix",
+      "semanticCommitScope": "k0s",
+      "automerge": true
+    },
+    {
+      "matchPackageNames": ["k0sproject/k0s"],
+      "matchUpdateTypes": ["minor"],
+      "commitMessageAction": "update",
+      "semanticCommitType": "feat",
+      "automerge": true
+    },
+    {
+      "matchPackageNames": ["k0sproject/k0s"],
+      "matchUpdateTypes": ["major"],
+      "commitMessageAction": "update",
+      "semanticCommitType": "feat",
+      "automerge": false
+    },
+
+    {
+      "matchManagers": ["pre-commit"],
+      "matchUpdateTypes": ["major", "minor", "patch"],
+      "groupName": "pre-commit hooks",
+      "semanticCommitType": "chore",
+      "semanticCommitScope": "pre-commit",
+      "commitMessageAction": "update",
+      "automerge": true
+    },
+    {
+      "matchManagers": ["pre-commit"],
+      "matchUpdateTypes": ["major"],
+      "groupName": null,
+      "automerge": false
+    },
+
+    {
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["major", "minor", "patch", "digest", "pinDigest"],
+      "semanticCommitType": "ci",
+      "semanticCommitScope": "",
+      "commitMessageAction": "update"
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "matchDepTypes": ["action"],
+      "groupName": "workflow actions",
+      "automerge": true
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "matchDepTypes": ["container"],
+      "groupName": "workflow containers",
+      "automerge": true
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["major"],
+      "groupName": null,
+      "automerge": false
+    },
+
+    {
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["/^quay\\.io/"],
+      "minimumReleaseAge": null
+    }
+  ]
+}
