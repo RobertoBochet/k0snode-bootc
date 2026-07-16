@@ -24,7 +24,7 @@ dnf install -y \
     zsh fish \
     tmux screen \
     neovim jq yq prename \
-    rsync tcpdump wget \
+    rsync tcpdump wget git strace \
     htop plocate tree \
     btrfs-progs snapper \
     nut \
