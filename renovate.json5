@@ -47,11 +47,19 @@
   "packageRules": [
     {
       "matchDatasources": ["docker"],
-      "matchPackageNames": ["quay.io/fedora/fedora-bootc"],
+      "matchPackageNames": ["quay.io/almalinuxorg/almalinux-bootc"],
+      "matchUpdateTypes": ["major", "minor", "patch", "digest"],
+      "commitMessageAction": "bump",
+      "semanticCommitType": "chore",
+      "semanticCommitScope": "almalinux",
+      "automerge": true
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["quay.io/almalinuxorg/almalinux-bootc"],
       "matchUpdateTypes": ["major"],
       "commitMessageAction": "update",
       "semanticCommitType": "feat",
-      "semanticCommitScope": "fedora",
       "automerge": false
     },
 

@@ -31,7 +31,7 @@ repos:
     rev: v3.14.2
     hooks:
       - id: markdown-link-check
-        args: [-q]
+        args: [-q, --alive, "200,403"]
   - repo: https://github.com/hadolint/hadolint
     rev: v2.14.0
     hooks:

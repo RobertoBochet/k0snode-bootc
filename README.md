@@ -45,4 +45,4 @@ It will publish the image to the [github registry](https://github.com/RobertoBoc
 
 ## Installation
 
-There are several ways to deploy a new instance of this machine. You can refer to the [fedora bootc docs](https://docs.fedoraproject.org/en-US/bootc/bare-metal/) to find the most suitable way to deploy your machine.
+There are several ways to deploy a new instance of this machine. You can refer to the [RHEL bootc docs](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/10/html/using_image_mode_for_rhel_to_build_deploy_and_manage_operating_systems) to find the most suitable way to deploy your machine.
