@@ -10,7 +10,7 @@ repos:
         language: node
         additional_dependencies:
           - "@commitlint/config-conventional@21.2.0"
-          - "commitlint-plugin-selective-scope@1.0.2"
+          - "commitlint-plugin-function-rules@5.0.1"
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
     hooks:
