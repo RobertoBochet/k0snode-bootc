@@ -94,14 +94,17 @@ rm -rf \
 	/etc/systemd/system/sshd.service.d/*
 
 echo "■■■■■ /var clean up ■■■■■"
-# Remove unrequired file from /var
+# Remove unrequired file from /var, /run and /tmp
 rm -rf \
+    /run/* \
+    /tmp/* \
     /var/lib/plocate/CACHEDIR.TAG \
     /var/lib/ufw/user*.rules \
     /var/lib/pgsql \
     /var/lib/selinux \
     /var/lib/cloud \
-    /var/lib/dhcpcd
+    /var/lib/dhcpcd \
+    /var/lib/freeipmi/ipckey
 
 echo "■■■■■ Build complete ■■■■■"
 EORUN
