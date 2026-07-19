@@ -49,6 +49,11 @@
     {
       "matchDatasources": ["docker"],
       "matchPackageNames": ["/almalinux-bootc$/"],
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)-(?<patch>\\d{8})-(?<compatibility>.+)$"
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["/almalinux-bootc$/"],
       "matchUpdateTypes": ["major", "minor", "patch", "digest"],
       "commitMessageAction": "bump",
       "semanticCommitType": "chore",

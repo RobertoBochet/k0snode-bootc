@@ -1,4 +1,4 @@
-FROM quay.io/almalinuxorg/almalinux-bootc:10.2@sha256:585a7eaab4e56a11e58042a835c4d328a72d6248019f01ee7fc3746d66a6d113
+FROM quay.io/almalinuxorg/almalinux-bootc:10.2-20260715-amd64_v2@sha256:002947b5834f17310ff686eceda60f2e2586d37e1e019e2b4270334ace0ca8f1
 
 ARG K0S_VERSION=v1.36.2+k0s.0
 
