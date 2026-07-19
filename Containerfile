@@ -69,10 +69,6 @@ systemctl disable NetworkManager
 systemctl enable systemd-networkd
 ln -s ../cloud-init.target /usr/lib/systemd/system/default.target.wants
 
-echo "■■■■■ Setup utilities ■■■■■"
-# Set fish as default shell
-usermod -s /usr/bin/fish root
-
 echo "■■■■■ Setup readonly paths ■■■■■"
 # Make some paths needed by k0s writable
 ln -s /var/libexec/k0s /usr/libexec/k0s
