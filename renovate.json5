@@ -25,6 +25,7 @@
   "enabledManagers": [
     "custom.regex",
     "dockerfile",
+    "quadlet",
     "pre-commit",
     "github-actions"
   ],
@@ -47,7 +48,7 @@
   "packageRules": [
     {
       "matchDatasources": ["docker"],
-      "matchPackageNames": ["quay.io/almalinuxorg/almalinux-bootc"],
+      "matchPackageNames": ["/almalinux-bootc$/"],
       "matchUpdateTypes": ["major", "minor", "patch", "digest"],
       "commitMessageAction": "bump",
       "semanticCommitType": "chore",
@@ -56,7 +57,25 @@
     },
     {
       "matchDatasources": ["docker"],
-      "matchPackageNames": ["quay.io/almalinuxorg/almalinux-bootc"],
+      "matchPackageNames": ["/almalinux-bootc$/"],
+      "matchUpdateTypes": ["major"],
+      "commitMessageAction": "update",
+      "semanticCommitType": "feat",
+      "automerge": false
+    },
+
+    {
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["/postgres$/"],
+      "matchUpdateTypes": ["major", "minor", "patch", "digest"],
+      "commitMessageAction": "bump",
+      "semanticCommitType": "chore",
+      "semanticCommitScope": "postgres",
+      "automerge": true
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["/postgres$/"],
       "matchUpdateTypes": ["major"],
       "commitMessageAction": "update",
       "semanticCommitType": "feat",

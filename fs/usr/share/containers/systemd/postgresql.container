@@ -1,0 +1,8 @@
+[Container]
+Image=docker.io/library/postgres:18.4-alpine@sha256:9a8afca54e7861fd90fab5fdf4c42477a6b1cb7d293595148e674e0a3181de15
+Volume=/var/lib/pgsql/18/data:/var/lib/postgresql/18/docker:Z
+Volume=/run/postgresql:/run/postgresql:Z
+User=543:543
+
+[Install]
+WantedBy=multi-user.target

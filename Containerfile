@@ -18,7 +18,6 @@ K8S_VERSION_MINOR="${K0S_VERSION%.*.*}"
 echo "■■■■■ Install repos ■■■■■"
 dnf install -y "dnf-command(config-manager)"
 dnf install -y epel-release
-dnf install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-${OS_VERSION}-$(uname -m)/pgdg-redhat-repo-latest.noarch.rpm
 dnf config-manager --add-repo https://pkgs.tailscale.com/stable/rhel/${OS_VERSION_MAJOR}/tailscale.repo
 cat <<EOF > /etc/yum.repos.d/kubernetes.repo
 [kubernetes]
@@ -31,7 +30,6 @@ EOF
 
 echo "■■■■■ Install packages ■■■■■"
 dnf install -y \
-    postgresql18-server \
     tailscale \
     wireguard-tools \
     cloud-init qemu-guest-agent \
@@ -67,6 +65,7 @@ systemctl enable dracut-sshd-copy-keys.path
 systemctl mask bootc-fetch-apply-updates.timer # unsupervised updates not recommended with encryption layer
 systemctl disable NetworkManager
 systemctl enable systemd-networkd
+systemctl enable systemd-resolved
 ln -s ../cloud-init.target /usr/lib/systemd/system/default.target.wants
 
 echo "■■■■■ Setup readonly paths ■■■■■"
@@ -96,7 +95,6 @@ rm -rf \
     /tmp/* \
     /var/lib/plocate/CACHEDIR.TAG \
     /var/lib/ufw/user*.rules \
-    /var/lib/pgsql \
     /var/lib/selinux \
     /var/lib/cloud \
     /var/lib/dhcpcd \

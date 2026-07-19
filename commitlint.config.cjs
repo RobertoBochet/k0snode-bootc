@@ -17,11 +17,11 @@ module.exports = {
       "always",
       ({type, scope}) => {
         const selectiveScopes = {
-          feat: ["k0s", "almalinux", "packages", null],
+          feat: ["k0s", "almalinux", "postgres", "packages", null],
           fix: ["k0s", "pre-commit", "renovate", null],
           docs: ["readme", null],
           ci: [null],
-          chore: ["almalinux", "pre-commit", "renovate", null],
+          chore: ["almalinux", "postgres", "pre-commit", "renovate", null],
           refactor: [null]
         }
 
