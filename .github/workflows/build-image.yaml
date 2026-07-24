@@ -21,10 +21,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: quay.io/buildah/stable:v1.43.1@sha256:ca4edbaabf71ca330ec9b2714bf8e06c726a6e85ae215cfb1474d2e2c832aacb
-      env:
-        BUILDAH_FORMAT: docker
-        BUILDAH_ISOLATION: chroot
+      image: quay.io/podman/stable:v5.8.2@sha256:663e0dbf407987b7db3f20d3588c283a8228db17b282d2029a482d4d47e36964
       options: --privileged
 
     permissions:
@@ -33,6 +30,22 @@ jobs:
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install skopeo and rpm-ostree
+        run: dnf install -y skopeo rpm-ostree
+
+      - name: Configure containers storage on /mnt
+        run: |
+          mkdir -p /mnt/containers/storage
+          cat > /etc/containers/storage.conf <<'EOF'
+          [storage]
+          driver = "overlay"
+          runroot = "/mnt/containers/storage/runroot"
+          graphroot = "/mnt/containers/storage/graphroot"
+          [storage.options.overlay]
+          mountopt = "nodev,metacopy=on"
+          EOF
+          podman system reset -f || true
 
       - name: Set variables
         run: |
@@ -53,23 +66,33 @@ jobs:
           ENV
 
       - name: Github registry login
-        run: buildah login -u "${{ github.repository_owner }}" -p "${{ secrets.GITHUB_TOKEN }}" "ghcr.io"
+        run: podman login -u "${{ github.repository_owner }}" -p "${{ secrets.GITHUB_TOKEN }}" "ghcr.io"
 
-      - name: Build image
+      - name: Build raw image
         run: |
-          buildah build -t "$IMAGE_NAME" --no-hosts --no-hostname \
+          podman build -t "$IMAGE_NAME:raw" \
                   --label org.opencontainers.image.source="${{ github.server_url }}/${{ github.repository }}" \
-                  --label org.opencontainers.image.version="${VERSION}"
+                  --label org.opencontainers.image.version="${VERSION}" .
+
+      - name: Rechunk image
+        run: |
+          set -euo pipefail
+          rpm-ostree experimental compose build-chunked-oci \
+              --bootc \
+              --format-version=1 \
+              --from="$IMAGE_NAME:raw" \
+              --output containers-storage:"$IMAGE_NAME"
 
       - name: Push dev image to github registry
+        if: github.ref != 'refs/heads/main'
         run: |
-          buildah push "$IMAGE_NAME" "docker://$IMAGE_NAME:$VERSION"
-          buildah push "$IMAGE_NAME" "docker://$IMAGE_NAME:dev"
+          podman push "$IMAGE_NAME" "docker://$IMAGE_NAME:$VERSION"
+          podman push "$IMAGE_NAME" "docker://$IMAGE_NAME:dev"
 
       - name: Push image to github registry
         if: github.ref == 'refs/heads/main'
         run: |
-          buildah push "$IMAGE_NAME" "docker://$IMAGE_NAME:${K0S_VERSION}"
-          buildah push "$IMAGE_NAME" "docker://$IMAGE_NAME:${K8S_VERSION}"
-          buildah push "$IMAGE_NAME" "docker://$IMAGE_NAME:${K8S_VERSION_MINOR}"
-          buildah push "$IMAGE_NAME" "docker://$IMAGE_NAME:latest"
+          podman push "$IMAGE_NAME" "docker://$IMAGE_NAME:${K0S_VERSION}"
+          podman push "$IMAGE_NAME" "docker://$IMAGE_NAME:${K8S_VERSION}"
+          podman push "$IMAGE_NAME" "docker://$IMAGE_NAME:${K8S_VERSION_MINOR}"
+          podman push "$IMAGE_NAME" "docker://$IMAGE_NAME:latest"
