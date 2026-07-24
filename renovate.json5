@@ -157,6 +157,11 @@
       "matchDatasources": ["docker"],
       "matchPackageNames": ["/^quay\\.io/"],
       "minimumReleaseAge": null
+    },
+    // limit all dev tool updates to once a week
+    {
+      "matchManagers": ["pre-commit", "github-actions"],
+      "schedule": ["* * * * 1"]
     }
   ]
 }
