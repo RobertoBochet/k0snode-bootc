@@ -83,6 +83,10 @@ jobs:
               --from="$IMAGE_NAME:raw" \
               --output containers-storage:"$IMAGE_NAME"
 
+      - name: "Warm up github registry layer cache (podman bug #27796)"
+        run: |
+          podman push "$IMAGE_NAME" "docker://$IMAGE_NAME:$SHORT_SHA"
+
       - name: Push dev image to github registry
         if: github.ref != 'refs/heads/main'
         run: |
