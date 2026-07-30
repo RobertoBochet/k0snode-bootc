@@ -1,6 +1,6 @@
 FROM quay.io/almalinuxorg/almalinux-bootc:10.2-20260715-amd64_v2@sha256:002947b5834f17310ff686eceda60f2e2586d37e1e019e2b4270334ace0ca8f1
 
-ARG K0S_VERSION=v1.36.2+k0s.0
+ARG K0S_VERSION=v1.36.3+k0s.0
 
 ARG TARGETARCH
 
