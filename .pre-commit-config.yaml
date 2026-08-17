@@ -9,7 +9,7 @@ repos:
         stages: [commit-msg]
         language: node
         additional_dependencies:
-          - "@commitlint/config-conventional@21.2.0"
+          - "@commitlint/config-conventional@21.2.2"
           - "commitlint-plugin-function-rules@5.0.1"
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
