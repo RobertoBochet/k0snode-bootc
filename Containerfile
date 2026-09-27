@@ -43,7 +43,7 @@ dnf install -y \
     htop plocate tree \
     btrfs-progs snapper \
     nut \
-    smartmontools gdisk \
+    smartmontools gdisk hd-idle \
     cockpit cockpit-selinux cockpit-ostree cockpit-kdump cockpit-sosreport \
     cri-tools kubectl \
     toolbox \
