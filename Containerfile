@@ -30,7 +30,7 @@ EOF
 
 echo "■■■■■ Install packages ■■■■■"
 dnf install -y \
-    tailscale \
+    tailscale netbird \
     wireguard-tools \
     cloud-init qemu-guest-agent \
     systemd-networkd \
