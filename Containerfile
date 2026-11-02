@@ -57,7 +57,6 @@ curl -sSLf https://get.k0s.sh | K0S_VERSION=$K0S_VERSION sh
 
 echo "■■■■■ DNF clean up ■■■■■"
 dnf clean all
-rm -rf /var/cache/* /var/log/* /var/lib/dnf
 
 # Enable and disable systemd units
 echo "■■■■■ Setup services ■■■■■"
@@ -93,12 +92,18 @@ echo "■■■■■ /var clean up ■■■■■"
 rm -rf \
     /run/* \
     /tmp/* \
+    /var/cache/* \
+    /var/lib/dnf \
     /var/lib/plocate/CACHEDIR.TAG \
     /var/lib/ufw/user*.rules \
     /var/lib/selinux \
     /var/lib/cloud \
     /var/lib/dhcpcd \
-    /var/lib/freeipmi/ipckey
+    /var/lib/freeipmi/ipckey \
+    /var/log/dnf.librepo.log \
+    /var/log/dnf.log \
+    /var/log/dnf.rpm.log \
+    /var/log/hawkey.log
 
 echo "■■■■■ Build complete ■■■■■"
 EORUN
