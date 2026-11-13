@@ -1,1 +1,1 @@
-LABEL=sshd_keys		/var/lib/dracut-sshd  ext4    defaults,nofail        0 0
+LABEL=sshd_keys		/var/lib/dracut-sshd  ext4    defaults,nofail,x-systemd.device-timeout=3        0 0
